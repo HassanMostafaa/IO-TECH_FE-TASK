@@ -4,7 +4,7 @@ interface RegisterHeadingProps {
 }
 
 export function RegisterHeading({
-  title = "Create an Account",
+  title = "Create a user",
   description = "Join IO-Tech and unlock exclusive features for our community members."
 }: RegisterHeadingProps) {
   return (

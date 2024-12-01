@@ -124,6 +124,8 @@ export function RegisterForm() {
           )}
         />
             
+
+        {/* THIS CAN BE CONDITIONED TO BE VISIBLE ONLY IF WE ARE ADMINS */}
         <FormField
           control={form.control}
           name="admin-user"
@@ -137,13 +139,13 @@ export function RegisterForm() {
               </FormControl>
               <div className="space-y-1 leading-none">
                 <FormLabel>Admin user</FormLabel>
-                <FormDescription>Create user with more permissions.</FormDescription>
+                <FormDescription>This will be a user with more permissions.</FormDescription>
                 <FormMessage />
               </div>
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full">Submit</Button>
+        <Button type="submit" className="w-full md:w-1/2 xl:w-fit text-md">Submit</Button>
       </form>
     </Form>
   )
