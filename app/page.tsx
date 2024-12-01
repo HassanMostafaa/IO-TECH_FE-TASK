@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic';
 
 async function getUsers(): Promise<User[]> {
   try {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/users`);
+    const response = await axios.get(`/api/users`);
     return response.data;
   } catch (error) {
     console.error('Failed to fetch users:', error);

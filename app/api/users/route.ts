@@ -1,7 +1,7 @@
-import { NextResponse } from 'next/server';
-import axios from 'axios';
+import { NextResponse } from "next/server";
+import axios from "axios";
 
-const baseUrl = process.env.BASE_URL || 'https://jsonplaceholder.typicode.com';
+const baseUrl = "https://jsonplaceholder.typicode.com";
 
 export async function GET() {
   try {
@@ -9,7 +9,7 @@ export async function GET() {
     return NextResponse.json(response.data);
   } catch (error) {
     return NextResponse.json(
-      { error: 'Failed to fetch users' },
+      { error: "Failed to fetch users" },
       { status: 500 }
     );
   }
@@ -22,7 +22,7 @@ export async function POST(request: Request) {
     return NextResponse.json(response.data, { status: 201 });
   } catch (error) {
     return NextResponse.json(
-      { error: 'Failed to create user' },
+      { error: "Failed to create user" },
       { status: 500 }
     );
   }

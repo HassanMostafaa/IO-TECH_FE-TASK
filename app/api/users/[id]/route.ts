@@ -1,7 +1,7 @@
-import { NextResponse } from 'next/server';
-import axios from 'axios';
+import { NextResponse } from "next/server";
+import axios from "axios";
 
-const baseUrl = process.env.BASE_URL || 'https://jsonplaceholder.typicode.com';
+const baseUrl = "https://jsonplaceholder.typicode.com";
 
 export async function GET(
   request: Request,
@@ -12,7 +12,7 @@ export async function GET(
     return NextResponse.json(response.data);
   } catch (error) {
     return NextResponse.json(
-      { error: 'Failed to fetch user' },
+      { error: "Failed to fetch user" },
       { status: 500 }
     );
   }
@@ -28,7 +28,7 @@ export async function PUT(
     return NextResponse.json(response.data);
   } catch (error) {
     return NextResponse.json(
-      { error: 'Failed to update user' },
+      { error: "Failed to update user" },
       { status: 500 }
     );
   }
@@ -43,7 +43,7 @@ export async function DELETE(
     return new NextResponse(null, { status: 204 });
   } catch (error) {
     return NextResponse.json(
-      { error: 'Failed to delete user' },
+      { error: "Failed to delete user" },
       { status: 500 }
     );
   }
