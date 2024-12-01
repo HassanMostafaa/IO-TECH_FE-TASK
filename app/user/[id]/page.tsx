@@ -9,18 +9,16 @@ import { redirect } from "next/navigation";
 
 async function getUser(id: string): Promise<User> {
   try {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/users/${id}`);
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/users/${id}`
+    );
     return response.data;
   } catch (error) {
-    throw new Error('Failed to fetch user');
+    throw new Error("Failed to fetch user");
   }
 }
 
-export default async function UserPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default async function UserPage({ params }: { params: { id: string } }) {
   if (!params.id) {
     redirect("/");
   }

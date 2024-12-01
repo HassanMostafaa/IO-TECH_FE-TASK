@@ -28,7 +28,7 @@ export function DeleteUserDialog({
 }: DeleteUserDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent aria-describedby="delete user dialog content">
         <DialogHeader>
           <div className="flex items-center gap-2 text-amber-600">
             <AlertCircle className="h-5 w-5" />
@@ -36,10 +36,8 @@ export function DeleteUserDialog({
           </div>
         </DialogHeader>
         <DialogDescription className="space-y-2">
-          <p>
-            Are you sure you want to delete user <strong>{userName}</strong>? This action
-            cannot be undone.
-          </p>
+          Are you sure you want to delete user <strong>{userName}</strong>? This
+          action cannot be undone.
         </DialogDescription>
         <DialogFooter>
           <div className="flex gap-2 justify-end">
