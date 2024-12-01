@@ -10,7 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Edit } from "lucide-react";
+import { Edit, User as UserIcon } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { UsersFilter } from "./users-filter";
@@ -72,6 +72,7 @@ export function UsersTable({ initialUsers }: UsersTableProps) {
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead></TableHead>
               <TableHead>Name</TableHead>
               <TableHead>Email</TableHead>
               <TableHead className="text-right">Actions</TableHead>
@@ -80,7 +81,12 @@ export function UsersTable({ initialUsers }: UsersTableProps) {
           <TableBody>
             {filteredUsers.map((user) => (
               <TableRow key={user.id}>
-                <TableCell className="font-medium">{user.name}</TableCell>
+                <TableCell className="w-0 p-0 pl-4">
+                  <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center">
+                    <UserIcon className="h-5 w-5 text-muted-foreground" />
+                  </div>
+                </TableCell>
+                <TableCell className="font-medium pl-2">{user.name}</TableCell>
                 <TableCell>{user.email}</TableCell>
                 <TableCell className="text-right">
                   <TooltipProvider delayDuration={100}>
