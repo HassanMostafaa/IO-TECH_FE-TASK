@@ -38,7 +38,7 @@ export default async function HomePage() {
 
 export async function generateMetadata() {
   return {
-    title: "Manage Members | Admin Dashboard",
+    title: "Admin Dashboard | IO TECH",
     description: "Manage and view all members in the system",
   };
 }

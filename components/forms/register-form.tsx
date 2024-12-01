@@ -65,34 +65,39 @@ export function RegisterForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder="example@ex.com" type="email" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
           name="username"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Enter your username"
+                  placeholder="johndoe"
                   type="text"
+                  autoComplete="username"
                   {...field}
                 />
               </FormControl>
               <FormDescription>
                 This is your public display name.
               </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="example@ex.com"
+                  type="email"
+                  autoComplete="email"
+                  {...field}
+                />
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}
