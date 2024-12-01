@@ -1,0 +1,4 @@
+"use client";
+import styled from 'styled-components';
+
+export const S{{ properCase name}} = styled.div``;
