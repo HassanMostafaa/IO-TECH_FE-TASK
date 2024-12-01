@@ -3,13 +3,14 @@ import { User } from "@/types/user";
 import { UsersTable } from "@/components/user/users-table";
 import { AdminInfoCard } from "@/components/user/admin-info-card";
 import axios from "axios";
+import { getBaseUrl } from "@/lib/utils/get-base-url";
 
 // This makes the page dynamic instead of static
 export const dynamic = 'force-dynamic';
 
 async function getUsers(): Promise<User[]> {
   try {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/users`);
+    const response = await axios.get(`${getBaseUrl()}/api/users`);
     return response.data;
   } catch (error) {
     console.error('Failed to fetch users:', error);
