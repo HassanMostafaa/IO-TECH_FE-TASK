@@ -6,11 +6,12 @@ import { AboutUserSection } from "@/components/user/about-user-section";
 import { QuickFactsSection } from "@/components/user/quick-facts-section";
 import { DangerZoneSection } from "@/components/user/danger-zone-section";
 import { redirect } from "next/navigation";
+import { getBaseUrl } from "@/lib/utils/get-base-url";
 
 async function getUser(id: string): Promise<User> {
   try {
     const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/users/${id}`
+      `${getBaseUrl()}/api/users/${id}`
     );
     return response.data;
   } catch (error) {
