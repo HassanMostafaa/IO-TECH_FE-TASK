@@ -1,14 +1,71 @@
-"use client"
+"use client";
 import { User } from "@/types/user";
+import { useState } from "react";
 import { DeleteUserButton } from "./delete-user-button";
+import { EditProfileDialog } from "./edit-profile-dialog";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
 
 interface DangerZoneSectionProps {
   user: User;
 }
 
 export function DangerZoneSection({ user }: DangerZoneSectionProps) {
-  const handleUserDelete = () => {
-    console.log("delete user", { user });
+  const [open, setOpen] = useState(false);
+  const router = useRouter();
+  const { toast } = useToast();
+
+  const handleUserDelete = async () => {
+    try {
+      const response = await fetch(`/api/users/${user.id}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete user");
+      }
+      toast({
+        title: "Success",
+        description: "User deleted successfully",
+      });
+      router.push("/");
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      toast({
+        title: "Error",
+        description: "Failed to delete user",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleUpdate = async (updatedData: Partial<User>) => {
+    try {
+      const response = await fetch(`/api/users/${user.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update user");
+      }
+
+      setOpen(false);
+      toast({
+        title: "Success",
+        description: "User updated successfully",
+      });
+    } catch (error) {
+      console.error("Error updating user:", error);
+      toast({
+        title: "Error",
+        description: "Failed to update user",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -19,7 +76,13 @@ export function DangerZoneSection({ user }: DangerZoneSectionProps) {
         the user&apos;s data. Please proceed with caution as these changes
         cannot be undone.
       </p>
-      <div className="max-w-fit">
+      <div className="flex gap-4 items-center">
+        <EditProfileDialog
+          user={user}
+          open={open}
+          onOpenChange={setOpen}
+          onUpdate={handleUpdate}
+        />
         <DeleteUserButton
           userId={user.id}
           variant="profile"

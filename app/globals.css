@@ -17,21 +17,11 @@ body {
   overflow-x: hidden;
 }
 
-body {
-  /* color: rgb(var(--foreground-rgb));
-  background: linear-gradient(200deg, var(--dark), var(--light)); */
-}
-
 a {
   color: inherit;
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  /* html {
-    color-scheme: dark;
-  } */
-}
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 255, 255, 255;

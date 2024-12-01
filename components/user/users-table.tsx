@@ -55,7 +55,10 @@ export function UsersTable({ initialUsers }: UsersTableProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("name-asc");
 
-  const filteredUsers = sortUsers(filterUsers(initialUsers, searchQuery), sortBy);
+  const filteredUsers = sortUsers(
+    filterUsers(initialUsers, searchQuery),
+    sortBy
+  );
 
   return (
     <div className=" space-y-8">
@@ -72,8 +75,8 @@ export function UsersTable({ initialUsers }: UsersTableProps) {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead></TableHead>
-              <TableHead>Name</TableHead>
+              <TableHead className="hidden sm:table-cell"></TableHead>
+              <TableHead className="hidden sm:table-cell">Name</TableHead>
               <TableHead>Email</TableHead>
               <TableHead className="text-right">Actions</TableHead>
             </TableRow>
@@ -81,13 +84,15 @@ export function UsersTable({ initialUsers }: UsersTableProps) {
           <TableBody>
             {filteredUsers.map((user) => (
               <TableRow key={user.id}>
-                <TableCell className="w-0 p-0 pl-4">
+                <TableCell className="w-0 p-0 pl-4 hidden sm:table-cell">
                   <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center">
                     <UserIcon className="h-5 w-5 text-muted-foreground" />
                   </div>
                 </TableCell>
                 <TableCell className="font-medium pl-2">{user.name}</TableCell>
-                <TableCell>{user.email}</TableCell>
+                <TableCell className="hidden sm:table-cell">
+                  {user.email}
+                </TableCell>
                 <TableCell className="text-right">
                   <TooltipProvider delayDuration={100}>
                     <Tooltip>
