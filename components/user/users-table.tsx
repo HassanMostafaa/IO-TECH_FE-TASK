@@ -89,8 +89,8 @@ export function UsersTable({ initialUsers }: UsersTableProps) {
                     <UserIcon className="h-5 w-5 text-muted-foreground" />
                   </div>
                 </TableCell>
-                <TableCell className="font-medium pl-2">{user.name}</TableCell>
-                <TableCell className="hidden sm:table-cell">
+                <TableCell className="hidden sm:table-cell font-medium pl-2">{user.name}</TableCell>
+                <TableCell className="">
                   {user.email}
                 </TableCell>
                 <TableCell className="text-right">
