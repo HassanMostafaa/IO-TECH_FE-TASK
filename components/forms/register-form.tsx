@@ -18,6 +18,7 @@ import { PasswordInput } from "@/components/ui/password-input";
 import { PhoneInput } from "@/components/ui/phone-input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
+import axios from "axios";
 
 const formSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -44,9 +45,15 @@ export function RegisterForm() {
   });
   const { toast } = useToast();
 
-  function onSubmit(values: RegisterFormValues) {
+  async function onSubmit(values: RegisterFormValues) {
     try {
-      console.log(values);
+      await axios.post("/api/users", {
+        email: values.email,
+        username: values.username,
+        password: values.password,
+        phone: values.phone,
+        isAdmin: values["admin-user"],
+      });
       toast({
         title: "Success",
         description: "User created successfully",
@@ -55,7 +62,8 @@ export function RegisterForm() {
       console.error("Form submission error", error);
       toast({
         title: "Register Error",
-        description: "",
+        description: "Failed to create user. Please try again.",
+        variant: "destructive",
       });
     }
   }
