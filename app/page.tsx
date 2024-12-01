@@ -1,7 +1,11 @@
+import { Metadata } from "next";
 import { User } from "@/types/user";
 import { UsersTable } from "@/components/user/users-table";
 import { AdminInfoCard } from "@/components/user/admin-info-card";
 import axios from "axios";
+
+// This makes the page dynamic instead of static
+export const dynamic = 'force-dynamic';
 
 async function getUsers(): Promise<User[]> {
   try {
@@ -36,7 +40,7 @@ export default async function HomePage() {
   );
 }
 
-export async function generateMetadata() {
+export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "Admin Dashboard | IO TECH",
     description: "Manage and view all members in the system",
