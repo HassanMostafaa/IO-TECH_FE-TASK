@@ -2,16 +2,34 @@
 
 A modern, responsive admin dashboard built with Next.js 14, TypeScript, and Tailwind CSS. This application provides a comprehensive user management system with dynamic routing, server-side rendering, and a beautiful UI powered by Radix UI components.
 
+---
+**Live Demo**: [https://io-tech-fe-task.vercel.app/](https://io-tech-fe-task.vercel.app/)
+
 ## 🎯 Table of Contents
 
 - [Features](#-features)
 - [Installation](#-installation)
 - [Development](#️-development)
 - [API Documentation](#-api-documentation)
+- [Deployment](#-deployment)
 - [Contributing](#-contributing)
 - [License](#-license)
 
-## 🚀 Features
+## 🚀 Deployment
+
+The application is deployed on Vercel, a powerful platform for frontend deployment and hosting:
+
+- **Live Demo**: [https://io-tech-fe-task.vercel.app/](https://io-tech-fe-task.vercel.app/)
+- **Platform**: Vercel (Next.js optimized hosting)
+- **Features**:
+  - Automatic HTTPS/SSL
+  - Global CDN
+  - Automatic deployments on git push
+  - Edge Network optimization
+  - Zero-config deployment
+  - Built-in CI/CD pipeline
+
+## 🌀 Features
 
 - **Modern Tech Stack**
 
@@ -171,22 +189,6 @@ The application is fully responsive and works across:
 - Server-side rendering for better performance
 - API route separation for better maintainability
 - Component-based architecture
-- Proper error handling
-- Form validation with Zod
-- Consistent code style with ESLint
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
 - Proper error handling
 - Form validation with Zod
 - Consistent code style with ESLint
