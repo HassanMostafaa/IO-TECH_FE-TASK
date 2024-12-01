@@ -7,6 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { Edit } from "lucide-react";
 import { ProfileForm } from "./profile-form";
@@ -38,6 +39,9 @@ export function EditProfileDialog({
       >
         <DialogHeader>
           <DialogTitle>Edit Profile</DialogTitle>
+          <DialogDescription>
+            Make changes to your profile information here.
+          </DialogDescription>
         </DialogHeader>
         <ProfileForm
           user={user}
