@@ -19,6 +19,8 @@ import { PhoneInput } from "@/components/ui/phone-input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import { getBaseUrl } from "@/lib/utils/get-base-url";
 
 const formSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -44,10 +46,11 @@ export function RegisterForm() {
     },
   });
   const { toast } = useToast();
+  const router = useRouter();
 
   async function onSubmit(values: RegisterFormValues) {
     try {
-      await axios.post("/api/users", {
+      await axios.post(`${getBaseUrl()}/api/users`, {
         email: values.email,
         username: values.username,
         password: values.password,
@@ -58,6 +61,7 @@ export function RegisterForm() {
         title: "Success",
         description: "User created successfully",
       });
+      router.push("/");
     } catch (error) {
       console.error("Form submission error", error);
       toast({
@@ -133,7 +137,7 @@ export function RegisterForm() {
               <FormLabel>Phone number</FormLabel>
               <FormControl className="w-full">
                 <PhoneInput
-                  placeholder="Ex: +971-XX-XXX-XXXX"
+                  placeholder="XX - XXX - XXXX"
                   {...field}
                   defaultCountry="AE"
                 />
