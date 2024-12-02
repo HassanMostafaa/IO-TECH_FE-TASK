@@ -27,3 +27,17 @@ export async function POST(request: Request) {
     );
   }
 }
+
+export async function PUT(request: Request) {
+  try {
+    const body = await request.json();
+    const { id, ...updateData } = body;
+    const response = await axios.put(`${baseUrl}/users/${id}`, updateData);
+    return NextResponse.json(response.data);
+  } catch (error) {
+    return NextResponse.json(
+      { error: 'Failed to update user' },
+      { status: 500 }
+    );
+  }
+}

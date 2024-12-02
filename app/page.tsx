@@ -1,49 +1,44 @@
-import { Metadata } from "next";
-import { User } from "@/types/user";
-import { UsersTable } from "@/components/user/users-table";
-import { AdminInfoCard } from "@/components/user/admin-info-card";
-import axios from "axios";
-import { getBaseUrl } from "@/lib/utils/get-base-url";
+'use client'
 
-// This makes the page dynamic instead of static
-export const dynamic = 'force-dynamic';
+import { useEffect } from 'react'
+import { NewUserModal } from '@/src/components/new-user-modal/NewUserModal'
+import { UserModal } from '@/src/components/user-modal/UserModal'
+import { UsersHeader } from '@/src/components/users-header/UsersHeader'
+import { Loading } from '@/src/components/loading/Loading'
+import { UsersContent } from '@/src/components/users-content/UsersContent'
+import { useUsersStore } from '@/src/store/useUsersStore'
 
-async function getUsers(): Promise<User[]> {
-  try {
-    const response = await axios.get(`${getBaseUrl()}/api/users`);
-    return response.data;
-  } catch (error) {
-    console.error('Failed to fetch users:', error);
-    return [];
+export default function HomePage() {
+  const { setUsers, setLoading, isLoading, filterQuery, filteredUsers } = useUsersStore()
+
+  const fetchUsers = async () => {
+    setLoading(true)
+    try {
+      const response = await fetch('https://jsonplaceholder.typicode.com/users')
+      const data = await response.json()
+      setUsers(data)
+    } catch (error) {
+      console.error('Error fetching users:', error)
+    } finally {
+      setLoading(false)
+    }
   }
-}
 
-export default async function HomePage() {
-  const users = await getUsers();
+  useEffect(() => {
+    fetchUsers()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  if (isLoading) {
+    return <Loading />
+  }
 
   return (
-    <div className="container mx-auto py-10 px-4 md:px-8">
-      <div className="flex items-center justify-between mb-8 border-b pb-2">
-        <div>
-          <h1 className="text-3xl font-bold mb-2"> Members</h1>
-          <p className="text-muted-foreground">
-            Manage {users.length} members in the system
-          </p>
-        </div>
-      </div>
-
-      <div className="grid lg:grid-cols-[1fr,300px] gap-8">
-          <UsersTable initialUsers={users} />
-
-          <AdminInfoCard totalUsers={users.length} />
-      </div>
-    </div>
-  );
-}
-
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: "Admin Dashboard | IO TECH",
-    description: "Manage and view all members in the system",
-  };
+    <main className="container mx-auto px-4 py-8">
+      <UsersHeader />
+      <UsersContent users={filteredUsers} filterQuery={filterQuery} />
+      <NewUserModal />
+      <UserModal />
+    </main>
+  )
 }
