@@ -3,6 +3,7 @@ import { useModalStore } from '@/src/store/useModalStore';
 import { useUsersStore } from '@/src/store/useUsersStore';
 import { User } from '@/types/user';
 import { Loader } from '../loader/Loader';
+import { getBaseUrl } from '@/src/lib/utils/get-base-url';
 
 export const NewUserModal = () => {
   const { isNewUserModalOpen, closeNewUserModal, isNewUserLoading, setNewUserLoading } = useModalStore();
@@ -32,7 +33,8 @@ export const NewUserModal = () => {
     setNewUserLoading(true);
 
     try {
-      const response = await fetch('/api/users', {
+      const baseUrl = getBaseUrl();
+      const response = await fetch(`${baseUrl}/api/users`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

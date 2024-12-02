@@ -1,38 +1,14 @@
 import axios from 'axios';
+import { getBaseUrl } from '@/src/lib/utils/get-base-url';
+import { User } from '@/types/user';
 
-const BASE_URL = 'https://jsonplaceholder.typicode.com';
-
-export interface User {
-  id?: number;
-  name: string;
-  username: string;
-  email: string;
-  address?: {
-    street: string;
-    suite: string;
-    city: string;
-    zipcode: string;
-    geo: {
-      lat: string;
-      lng: string;
-    }
-  };
-  phone?: string;
-  website?: string;
-  company?: {
-    name: string;
-    catchPhrase: string;
-    bs: string;
-  }
-}
-
-export const api = {
+const api = {
   // Fetch all users
   getUsers: async (): Promise<User[]> => {
     try {
-      const response = await fetch('/api/users');
-      if (!response.ok) throw new Error('Failed to fetch users');
-      return response.json();
+      const baseUrl = getBaseUrl();
+      const { data } = await axios.get(`${baseUrl}/api/users`);
+      return data;
     } catch (error) {
       console.error('Error fetching users:', error);
       throw error;
@@ -42,9 +18,9 @@ export const api = {
   // Fetch a single user by ID
   getUser: async (id: number): Promise<User> => {
     try {
-      const response = await fetch(`/api/users/${id}`);
-      if (!response.ok) throw new Error(`Failed to fetch user ${id}`);
-      return response.json();
+      const baseUrl = getBaseUrl();
+      const { data } = await axios.get(`${baseUrl}/api/users/${id}`);
+      return data;
     } catch (error) {
       console.error(`Error fetching user ${id}:`, error);
       throw error;
@@ -54,15 +30,9 @@ export const api = {
   // Create a new user
   createUser: async (user: Omit<User, 'id'>): Promise<User> => {
     try {
-      const response = await fetch('/api/users', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(user),
-      });
-      if (!response.ok) throw new Error('Failed to create user');
-      return response.json();
+      const baseUrl = getBaseUrl();
+      const { data } = await axios.post(`${baseUrl}/api/users`, user);
+      return data;
     } catch (error) {
       console.error('Error creating user:', error);
       throw error;
@@ -72,15 +42,9 @@ export const api = {
   // Update an existing user
   updateUser: async (id: number, user: Partial<User>): Promise<User> => {
     try {
-      const response = await fetch(`/api/users/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(user),
-      });
-      if (!response.ok) throw new Error(`Failed to update user ${id}`);
-      return response.json();
+      const baseUrl = getBaseUrl();
+      const { data } = await axios.put(`${baseUrl}/api/users/${id}`, user);
+      return data;
     } catch (error) {
       console.error(`Error updating user ${id}:`, error);
       throw error;
@@ -90,15 +54,13 @@ export const api = {
   // Delete a user
   deleteUser: async (id: number): Promise<void> => {
     try {
-      const response = await fetch(`/api/users/${id}`, {
-        method: 'DELETE',
-      });
-      if (!response.ok) throw new Error(`Failed to delete user ${id}`);
+      const baseUrl = getBaseUrl();
+      await axios.delete(`${baseUrl}/api/users/${id}`);
     } catch (error) {
       console.error(`Error deleting user ${id}:`, error);
       throw error;
     }
-  },
+  }
 };
 
-export default api;
+export { api };

@@ -3,6 +3,7 @@ import { useModalStore } from '@/src/store/useModalStore';
 import { useUsersStore } from '@/src/store/useUsersStore';
 import { User } from '@/types/user';
 import { Loader } from '@/src/components/loader/Loader';
+import { ErrorMessage } from '@/src/components/error-message/ErrorMessage';
 
 export const UserModal = () => {
   const { 
@@ -20,6 +21,7 @@ export const UserModal = () => {
   
   const { updateUser, deleteUser } = useUsersStore();
   const [formData, setFormData] = useState<User | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (selectedUser) {
@@ -29,14 +31,12 @@ export const UserModal = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData) return;
+    if (!formData || typeof formData.id !== 'number') return;
 
     setUserModalLoading(true);
+    setError(null);
+    
     try {
-      // Update store first for immediate UI update
-      updateUser(formData);
-      
-      // Then update the database
       const response = await fetch(`/api/users/${formData.id}`, {
         method: 'PUT',
         headers: {
@@ -44,23 +44,22 @@ export const UserModal = () => {
         },
         body: JSON.stringify(formData),
       });
-      
-      if (response.ok) {
-        toggleEditMode();
-      } else {
-        // If API fails, we might want to revert the store update
-        // This would require keeping the original user data
-        console.error('Failed to update user in database');
+
+      if (!response.ok) {
+        throw new Error('Failed to update user');
       }
+
+      updateUser(formData);
+      toggleEditMode();
     } catch (error) {
-      console.error('Error updating user:', error);
+      setError(error instanceof Error ? error.message : 'An unexpected error occurred');
     } finally {
       setUserModalLoading(false);
     }
   };
 
   const handleDelete = async () => {
-    if (!selectedUser) return;
+    if (!selectedUser || typeof selectedUser.id !== 'number') return;
     
     setUserModalLoading(true);
     try {
@@ -112,6 +111,13 @@ export const UserModal = () => {
               </div>
             )}
           </div>
+
+          {error && (
+            <ErrorMessage
+              message={error}
+              className="mb-4"
+            />
+          )}
 
           {isDeleteConfirmOpen && !isEditMode && (
             <div className="mb-6 bg-red-50 dark:bg-red-900/20 p-4 rounded-lg">
@@ -191,7 +197,7 @@ export const UserModal = () => {
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Company Name</label>
                   <input
                     type="text"
-                    value={formData.company.name}
+                    value={formData?.company?.name}
                     onChange={(e) =>
                       setFormData({
                         ...formData,
@@ -206,7 +212,7 @@ export const UserModal = () => {
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">City</label>
                   <input
                     type="text"
-                    value={formData.address.city}
+                    value={formData?.address?.city}
                     onChange={(e) =>
                       setFormData({
                         ...formData,
@@ -262,11 +268,11 @@ export const UserModal = () => {
                 <div className="col-span-2 text-gray-900 dark:text-white">{formData.website}</div>
 
                 <div className="col-span-1 text-gray-500 dark:text-gray-400">Company</div>
-                <div className="col-span-2 text-gray-900 dark:text-white">{formData.company.name}</div>
+                <div className="col-span-2 text-gray-900 dark:text-white">{formData?.company?.name}</div>
 
                 <div className="col-span-1 text-gray-500 dark:text-gray-400">Address</div>
                 <div className="col-span-2 text-gray-900 dark:text-white">
-                  {`${formData.address.street}, ${formData.address.suite}, ${formData.address.city}, ${formData.address.zipcode}`}
+                  {`${formData?.address?.street}, ${formData?.address?.suite}, ${formData?.address?.city}, ${formData?.address?.zipcode}`}
                 </div>
               </div>
 

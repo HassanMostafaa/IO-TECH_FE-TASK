@@ -4,70 +4,49 @@ import { User } from '@/types/user';
 interface UsersStore {
   users: User[];
   isLoading: boolean;
+  error: string | null;
   filterQuery: string;
   setUsers: (users: User[]) => void;
   addUser: (user: User) => void;
-  updateUser: (updatedUser: User) => void;
+  updateUser: (user: User) => void;
   deleteUser: (userId: number) => void;
-  setLoading: (loading: boolean) => void;
   setFilterQuery: (query: string) => void;
+  setLoading: (loading: boolean) => void;
+  setError: (error: string | null) => void;
   filteredUsers: User[];
 }
 
 export const useUsersStore = create<UsersStore>((set, get) => ({
   users: [],
   isLoading: true,
+  error: null,
   filterQuery: '',
-  filteredUsers: [],
-  setUsers: (users) => set((state) => {
-    const query = state.filterQuery.toLowerCase()
-    const filteredUsers = !query ? users : users.filter(user => 
-      user.name.toLowerCase().includes(query) ||
-      user.email.toLowerCase().includes(query) ||
-      user.username.toLowerCase().includes(query)
-    )
-    return { users, filteredUsers }
-  }),
-  addUser: (newUser) => set((state) => {
-    const newUsers = [...state.users, newUser]
-    const query = state.filterQuery.toLowerCase()
-    const filteredUsers = !query ? newUsers : newUsers.filter(user => 
-      user.name.toLowerCase().includes(query) ||
-      user.email.toLowerCase().includes(query) ||
-      user.username.toLowerCase().includes(query)
-    )
-    return { users: newUsers, filteredUsers }
-  }),
-  updateUser: (updatedUser) => set((state) => {
-    const newUsers = state.users.map(user => 
-      user.id === updatedUser.id ? updatedUser : user
-    )
-    const query = state.filterQuery.toLowerCase()
-    const filteredUsers = !query ? newUsers : newUsers.filter(user => 
-      user.name.toLowerCase().includes(query) ||
-      user.email.toLowerCase().includes(query) ||
-      user.username.toLowerCase().includes(query)
-    )
-    return { users: newUsers, filteredUsers }
-  }),
-  deleteUser: (userId) => set((state) => {
-    const newUsers = state.users.filter(user => user.id !== userId)
-    const query = state.filterQuery.toLowerCase()
-    const filteredUsers = !query ? newUsers : newUsers.filter(user => 
-      user.name.toLowerCase().includes(query) ||
-      user.email.toLowerCase().includes(query) ||
-      user.username.toLowerCase().includes(query)
-    )
-    return { users: newUsers, filteredUsers }
-  }),
+  setUsers: (users) => set({ users, error: null }),
+  addUser: (user) => set((state) => ({ 
+    users: [...state.users, user],
+    error: null 
+  })),
+  updateUser: (user) => set((state) => ({
+    users: state.users.map((u) => (u.id === user.id ? user : u)),
+    error: null
+  })),
+  deleteUser: (userId) => set((state) => ({ 
+    users: state.users.filter((u) => u.id !== userId),
+    error: null
+  })),
+  setFilterQuery: (query) => set({ filterQuery: query }),
   setLoading: (loading) => set({ isLoading: loading }),
-  setFilterQuery: (query) => set((state) => {
-    const newQuery = query.toLowerCase()
-    const filteredUsers = !newQuery ? state.users : state.users.filter(user => 
-      user.name.toLowerCase().includes(newQuery) ||
-      user.email.toLowerCase().includes(newQuery) ||
-      user.username.toLowerCase().includes(newQuery)
-    )
-    return { filterQuery: query, filteredUsers }
-  }),
+  setError: (error) => set({ error }),
+  get filteredUsers() {
+    const state = get()
+    const query = state.filterQuery.toLowerCase()
+    return query
+      ? state.users.filter(
+          (user) =>
+            user.name.toLowerCase().includes(query) ||
+            user.email.toLowerCase().includes(query) ||
+            user?.company?.name.toLowerCase().includes(query)
+        )
+      : state.users
+  },
 }));
