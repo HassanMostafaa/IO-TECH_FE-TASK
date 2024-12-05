@@ -2,6 +2,20 @@
 
 A modern, responsive admin dashboard built with Next.js 14, TypeScript, and Tailwind CSS. This application provides a comprehensive user management system with dynamic routing, server-side rendering, and a beautiful UI powered by Radix UI components.
 
+## 📌 API Information
+
+This project uses the JSONPlaceholder API for demonstration purposes. According to its documentation:
+
+> **Important**: Resources will not be really updated on the server but will be faked as if they were.
+
+### Expected Network Responses:
+- **GET Requests**: 
+  - `/users`: Status 200 (OK) with array of users
+  - `/users/[id]`: Status 200 (OK) with single user object
+- **POST Requests**: Status 201 (Created) with created user object
+- **PUT Requests**: Status 200 (OK)
+- **DELETE Requests**: Status 204 (No Content)
+
 ---
 **Live Demo**: [https://io-tech-fe-task.vercel.app/](https://io-tech-fe-task.vercel.app/)
 
