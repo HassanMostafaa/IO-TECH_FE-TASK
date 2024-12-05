@@ -29,8 +29,10 @@ export function DangerZoneSection({ user }: DangerZoneSectionProps) {
         title: "Success",
         description: "User deleted successfully",
       });
-      deleteUser(user.id);
       router.push("/");
+      setTimeout(() => {
+        deleteUser(user.id);
+      }, 1000);
     } catch (error) {
       console.error("Error deleting user:", error);
       toast({
