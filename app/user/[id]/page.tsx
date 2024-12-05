@@ -32,7 +32,7 @@ export default function UserPage({ params }: { params: { id: string } }) {
       })();
     }
     if (users) {
-      setCurrentUser(users.filter((u) => u.id === params.id)[0]);
+      setCurrentUser(users.filter((u) => u.id == params.id)[0]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
