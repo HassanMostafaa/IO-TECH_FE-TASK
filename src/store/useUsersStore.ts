@@ -17,10 +17,6 @@ function sortUsers(users: User[], sortBy: string): User[] {
         return a.name.localeCompare(b.name);
       case "name-desc":
         return b.name.localeCompare(a.name);
-      case "id-asc":
-        return a.id - b.id;
-      case "id-desc":
-        return b.id - a.id;
       default:
         return a.name.localeCompare(b.name); // Default to name-asc
     }
@@ -37,7 +33,7 @@ interface UsersStore {
   currentUser: User | null;
   addUser: (user: User) => void;
   updateUser: (user: User) => void;
-  deleteUser: (userId: number) => void;
+  deleteUser: (userId: User["id"]) => void;
   setFilterQuery: (query: string) => void;
   setSortBy: (sortBy: string) => void;
   setLoading: (loading: boolean) => void;
@@ -59,7 +55,6 @@ export const useUsersStore = create<UsersStore>((set, get) => ({
   addUser: (user) => set((state) => ({ 
     users: [...(state.users ?? []), user],
     error: null ,
-    currentUser: user
   })),
 
   updateUser: (user) => set((state) => ({

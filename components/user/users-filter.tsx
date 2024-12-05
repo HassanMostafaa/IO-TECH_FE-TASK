@@ -40,8 +40,8 @@ export function UsersFilter({
           <SelectContent className="z-[9999] w-[180px]" position="popper" sideOffset={4}>
           <SelectItem value="name-asc">Name (A-Z)</SelectItem>
           <SelectItem value="name-desc">Name (Z-A)</SelectItem>
-          <SelectItem value="id-asc">ID (Ascending)</SelectItem>
-          <SelectItem value="id-desc">ID (Descending)</SelectItem>
+          {/* <SelectItem value="id-asc">ID (Ascending)</SelectItem>
+          <SelectItem value="id-desc">ID (Descending)</SelectItem> */}
         </SelectContent>
       </Select>
     </div>

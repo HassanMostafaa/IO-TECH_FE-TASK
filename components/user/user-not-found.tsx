@@ -17,7 +17,7 @@ export function UserNotFound() {
             We couldn&apos;t find the user information you&apos;re looking for.
           </div>
         </div>
-        <Link href="/user">
+        <Link href="/">
           <Button variant="outline" size="sm">
             <Home className="w-4 h-4 mr-2" />
             Back to Home

@@ -3,9 +3,10 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 import { DeleteUserDialog } from "./delete-user-dialog";
+import { User } from "@/types/user";
 
 interface DeleteUserButtonProps {
-  userId: number;
+  userId: User["id"];
   userName: string;
   onDelete: () => void;
   variant?: "table" | "profile";

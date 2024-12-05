@@ -24,21 +24,21 @@ export default function UserPage({ params }: { params: { id: string } }) {
     useUsersStore();
 
   useEffect(() => {
-    if (!currentUser && !users) {
+    if (!users) {
       (async () => {
         setLoading(true);
         setCurrentUser(await getUser(params.id));
         setLoading(false);
       })();
     }
-    if (currentUser && users) {
-      setCurrentUser(users.filter((u) => u.id === Number(params.id))[0]);
+    if (users) {
+      setCurrentUser(users.filter((u) => u.id === params.id)[0]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!currentUser) {
-    return null;
+    return <UserNotFound />;
   }
 
   if (isLoading) {
