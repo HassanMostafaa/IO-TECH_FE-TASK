@@ -66,8 +66,8 @@ export function DangerZoneSection({ user }: DangerZoneSectionProps) {
     } catch (error) {
       console.error("Error updating user:", error);
       toast({
-        title: "Error",
-        description: "Failed to update user",
+        title: "Error: User id doesn't exist on server",
+        description: "Failed to update user on server although updates will be reflected locally in the store",
         variant: "destructive",
       });
     }

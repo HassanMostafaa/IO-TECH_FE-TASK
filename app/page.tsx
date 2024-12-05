@@ -27,7 +27,7 @@ export default async function HomePage() {
         <div>
           <h1 className="text-3xl font-bold mb-2"> Members</h1>
           <p className="text-muted-foreground">
-            Manage {users.length} members in the system
+            Manage and view all members in the system
           </p>
         </div>
       </div>

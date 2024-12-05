@@ -21,6 +21,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useUsersStore } from "@/src/store/useUsersStore";
+import { NoUsersFound } from './no-users-found';
 
 interface UsersTableProps {
   initialUsers: User[];
@@ -69,7 +70,7 @@ export function UsersTable({ initialUsers }: UsersTableProps) {
   }
 
   if (!users?.length) {
-    return <div>No users found</div>;
+    return <NoUsersFound />;
   }
 
   const displayUsers = getFilteredAndSortedUsers();
