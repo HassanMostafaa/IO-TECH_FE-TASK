@@ -58,7 +58,8 @@ export const useUsersStore = create<UsersStore>((set, get) => ({
 
   addUser: (user) => set((state) => ({ 
     users: [...(state.users ?? []), user],
-    error: null 
+    error: null ,
+    currentUser: user
   })),
 
   updateUser: (user) => set((state) => ({

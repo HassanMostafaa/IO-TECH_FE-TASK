@@ -54,7 +54,18 @@ export function UsersTable({ initialUsers }: UsersTableProps) {
   }, [filterQuery, sortBy]);
 
   if (isLoading) {
-    return <div>Loading users...</div>;
+    return (
+      <div className="w-full space-y-4">
+        <div className="flex items-center space-x-4 animate-pulse">
+          <div className="h-10 bg-gray-200 rounded w-1/4"></div>
+          <div className="h-10 bg-gray-200 rounded w-1/4"></div>
+          <div className="h-10 bg-gray-200 rounded w-1/4"></div>
+        </div>
+        {[...Array(5)].map((_, index) => (
+          <div key={index} className="w-full h-12 bg-gray-100 rounded animate-pulse"></div>
+        ))}
+      </div>
+    );
   }
 
   if (!users?.length) {

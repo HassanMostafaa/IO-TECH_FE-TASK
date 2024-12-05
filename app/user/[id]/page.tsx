@@ -24,7 +24,7 @@ export default function UserPage({ params }: { params: { id: string } }) {
     useUsersStore();
 
   useEffect(() => {
-    if (!currentUser) {
+    if (!currentUser && !users) {
       (async () => {
         setLoading(true);
         setCurrentUser(await getUser(params.id));

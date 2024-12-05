@@ -21,6 +21,7 @@ import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { getBaseUrl } from "@/lib/utils/get-base-url";
+import { useUsersStore } from "@/src/store/useUsersStore";
 
 const formSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -47,6 +48,7 @@ export function RegisterForm() {
   });
   const { toast } = useToast();
   const router = useRouter();
+  const {addUser} = useUsersStore()
 
   async function onSubmit(values: RegisterFormValues) {
     try {
@@ -61,6 +63,23 @@ export function RegisterForm() {
         title: "Success",
         description: "User created successfully",
       });
+      addUser({
+        ...values,
+        id: 6546556,
+        name: "",
+        address: {
+          street: "",
+          suite: "",
+          city: "",
+          zipcode: ""
+        },
+        website: "",
+        company: {
+          name: "",
+          catchPhrase: "",
+          bs: ""
+        }
+      })
       router.push("/");
     } catch (error) {
       console.error("Form submission error", error);
