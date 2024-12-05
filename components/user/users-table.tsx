@@ -12,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Edit, User as UserIcon } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { UsersFilter } from "./users-filter";
 import {
   Tooltip,
@@ -20,52 +20,55 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useUsersStore } from "@/src/store/useUsersStore";
 
 interface UsersTableProps {
   initialUsers: User[];
 }
 
-function filterUsers(users: User[], searchQuery: string): User[] {
-  const query = searchQuery.toLowerCase();
-  return users.filter(
-    (user) =>
-      user.name.toLowerCase().includes(query) ||
-      user.email.toLowerCase().includes(query)
-  );
-}
-
-function sortUsers(users: User[], sortBy: string): User[] {
-  return [...users].sort((a, b) => {
-    switch (sortBy) {
-      case "name-asc":
-        return a.name.localeCompare(b.name);
-      case "name-desc":
-        return b.name.localeCompare(a.name);
-      case "id-asc":
-        return a.id - b.id;
-      case "id-desc":
-        return b.id - a.id;
-      default:
-        return 0;
-    }
-  });
-}
-
 export function UsersTable({ initialUsers }: UsersTableProps) {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [sortBy, setSortBy] = useState("name-asc");
+  const {
+    users,
+    setUsers,
+    getFilteredAndSortedUsers,
+    filterQuery,
+    sortBy,
+    setFilterQuery,
+    setSortBy,
+    isLoading,
+  } = useUsersStore();
 
-  const filteredUsers = sortUsers(
-    filterUsers(initialUsers, searchQuery),
-    sortBy
-  );
+  // Local state to force re-renders on filter/sort changes
+  const [, setUpdateTrigger] = useState(0);
+
+  useEffect(() => {
+    // Only set initial users once when the component mounts
+    if (users=== null && initialUsers?.length > 0) {
+      setUsers(initialUsers);
+    }
+  }, [initialUsers, setUsers, users]);
+
+  // Force re-render when filter or sort changes
+  useEffect(() => {
+    setUpdateTrigger((prev) => prev + 1);
+  }, [filterQuery, sortBy]);
+
+  if (isLoading) {
+    return <div>Loading users...</div>;
+  }
+
+  if (!users?.length) {
+    return <div>No users found</div>;
+  }
+
+  const displayUsers = getFilteredAndSortedUsers();
 
   return (
-    <div className=" space-y-8">
-      <div className=" absolute -translate-y-5  pr-4">
+    <div className="space-y-8">
+      <div className="absolute -translate-y-5 pr-4">
         <UsersFilter
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
+          searchQuery={filterQuery}
+          onSearchChange={setFilterQuery}
           sortBy={sortBy}
           onSortChange={setSortBy}
         />
@@ -82,17 +85,17 @@ export function UsersTable({ initialUsers }: UsersTableProps) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredUsers.map((user) => (
+            {displayUsers.map((user) => (
               <TableRow key={user.id}>
                 <TableCell className="w-0 p-0 pl-4 hidden sm:table-cell">
                   <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center">
                     <UserIcon className="h-5 w-5 text-muted-foreground" />
                   </div>
                 </TableCell>
-                <TableCell className="hidden sm:table-cell font-medium pl-2">{user.name}</TableCell>
-                <TableCell className="">
-                  {user.email}
+                <TableCell className="hidden sm:table-cell font-medium pl-2">
+                  {user.name}
                 </TableCell>
+                <TableCell className="">{user.email}</TableCell>
                 <TableCell className="text-right">
                   <TooltipProvider delayDuration={100}>
                     <Tooltip>

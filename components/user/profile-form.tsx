@@ -23,13 +23,28 @@ export function ProfileForm({ user, onSubmit, onCancel }: ProfileFormProps) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const data: Partial<User> = {};
+
+    if(!user){
+      return
+    }
+    
+    // Collect all form field values
     fields.forEach((field) => {
       const value = formData.get(field.id);
-      if (value) {
-        data[field.id as keyof User] = value as any;
+      const fieldKey = field.id as keyof User;
+      // Only include fields that have changed
+      if (value !== null && value !== user[fieldKey]) {
+        const stringValue = value instanceof File ? value.name : value.toString();
+        if (stringValue !== user[fieldKey]) {
+          (data as any)[fieldKey] = stringValue;
+        }
       }
     });
-    onSubmit(data);
+
+    // Only submit if there are changes
+    if (Object.keys(data).length > 0) {
+      onSubmit(data);
+    }
   };
 
   return (
@@ -42,6 +57,7 @@ export function ProfileForm({ user, onSubmit, onCancel }: ProfileFormProps) {
             </Label>
             <Input
               id={field.id}
+              name={field.id}
               defaultValue={field.value}
               className="col-span-3"
             />

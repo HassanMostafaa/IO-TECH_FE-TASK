@@ -5,6 +5,7 @@ import { DeleteUserButton } from "./delete-user-button";
 import { EditProfileDialog } from "./edit-profile-dialog";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
+import { useUsersStore } from "@/src/store/useUsersStore";
 
 interface DangerZoneSectionProps {
   user: User;
@@ -14,7 +15,7 @@ export function DangerZoneSection({ user }: DangerZoneSectionProps) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
-
+  const { deleteUser, updateUser } = useUsersStore();
   const handleUserDelete = async () => {
     try {
       const response = await fetch(`/api/users/${user.id}`, {
@@ -28,6 +29,7 @@ export function DangerZoneSection({ user }: DangerZoneSectionProps) {
         title: "Success",
         description: "User deleted successfully",
       });
+      deleteUser(user.id);
       router.push("/");
     } catch (error) {
       console.error("Error deleting user:", error);
@@ -48,6 +50,7 @@ export function DangerZoneSection({ user }: DangerZoneSectionProps) {
         },
         body: JSON.stringify(updatedData),
       });
+      updateUser({ ...user, ...updatedData });
 
       if (!response.ok) {
         throw new Error("Failed to update user");
