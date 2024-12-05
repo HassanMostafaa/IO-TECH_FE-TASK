@@ -6,7 +6,8 @@ A modern, responsive admin dashboard built with Next.js 14, TypeScript, and Tail
 
 This project uses the JSONPlaceholder API for demonstration purposes. According to its documentation:
 
-> **Important**: Resources will not be really updated on the server but will be faked as if they were.
+> **Important**: Resources will not be really updated on the server but will be faked as if they were. according to JSONPlaceholder documentation.
+https://jsonplaceholder.typicode.com/guide/
 
 ### Expected Network Responses:
 - **GET Requests**: 
