@@ -57,7 +57,7 @@ export function RegisterForm() {
       await axios.post(`${getBaseUrl()}/api/users`, {
         email,
         username,
-        name,
+        name:username,
         password,
         phone,
         isAdmin,
