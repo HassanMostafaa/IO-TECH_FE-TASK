@@ -52,17 +52,19 @@ export function RegisterForm() {
   const { addUser } = useUsersStore();
 
   async function onSubmit(values: RegisterFormValues) {
+    const { email, username, password, phone, "admin-user": isAdmin } = values;
     try {
       await axios.post(`${getBaseUrl()}/api/users`, {
-        email: values.email,
-        username: values.username,
-        password: values.password,
-        phone: values.phone,
-        isAdmin: values["admin-user"],
+        email,
+        username,
+        name,
+        password,
+        phone,
+        isAdmin,
       });
       addUser({
         id: uuidv4(),
-        name: "",
+        name: username,
         address: {
           street: "",
           suite: "",
